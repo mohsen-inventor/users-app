@@ -1,0 +1,12 @@
+@import './libs/reset';
+@import './shared';
+
+html,
+body {
+    font-family: $font;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}

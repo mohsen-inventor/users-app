@@ -1,0 +1,9 @@
+@import './font';
+
+/* Fonts
+---------------------------------------------*/
+$fontsFallback: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+$font: 'source_sans_prolight', $fontsFallback;
+$fontBold: 'source_sans_prosemibold', $fontsFallback;
