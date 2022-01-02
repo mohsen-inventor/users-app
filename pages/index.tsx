@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Fragment } from 'react'
+import Users from '../components/Users/Users'
 
 const Home: NextPage = () => {
   return (
@@ -10,9 +11,8 @@ const Home: NextPage = () => {
         <meta name="description" content="Users list" />
         <link rel="icon" href="/favicon.png" />
       </Head>
-
       <main>
-        Main content
+        <Users />
       </main>
     </Fragment>
   )

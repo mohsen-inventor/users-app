@@ -1,0 +1,41 @@
+@import '/sass/shared';
+
+@mixin absoluteFullSpace {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.circle {
+    width: 100%;
+    padding-bottom: 40%; // default circle size
+
+    &,
+    .width {
+        position: relative;
+        min-height: 120px; // default min width/height
+        min-width: 120px;
+    }
+
+    .height {
+        @include absoluteFullSpace;
+        @include flexCenter;
+    }
+
+    .width {
+        height: 100%;
+        padding-left: 40%; // default circle size
+    }
+
+    .content {
+        @include absoluteFullSpace;
+        @include flexCenter;
+    }
+}

@@ -2,8 +2,18 @@
 @import './shared';
 
 html,
+body,
+#__next {
+    min-height: 100%;
+}
+
 body {
     font-family: $font;
+    background-color: $gray;
+}
+
+h1 {
+    font-size: 48px;
 }
 
 a {

@@ -1,0 +1,30 @@
+@import '/sass/shared';
+
+.users {
+    overflow: hidden;
+    // border: $borderRed;
+}
+
+.header,
+.grid,
+.footer {
+    display: flex;
+}
+
+.header {
+    justify-content: space-between;
+    align-items: center;
+
+    .search {
+    }
+}
+
+.grid {
+    flex-wrap: wrap;
+    margin: 32px -32px;
+    // background-color: $bgRed;
+}
+
+.footer {
+    justify-content: center;
+}

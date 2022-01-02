@@ -1,0 +1,38 @@
+@import '/sass/shared';
+
+.cardWrap {
+    $cardWidth: 33.333%;
+
+    flex: 1 1 $cardWidth;
+    max-width: $cardWidth;
+    padding: 32px;
+}
+
+.userCard {
+    padding: 44px 32px;
+    border-radius: $borderRadius;
+    background-color: $white;
+    transition: all 200ms ease-in-out;
+
+    &:hover {
+        // transform: scale(1.02);
+        box-shadow: 0 0 6px 1px rgba($black, 0.05);
+    }
+}
+
+.content {
+}
+
+.photoBox {
+    background-color: $bgGreen;
+}
+
+.photo {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: $borderRed;
+}
+
+.description {
+}
