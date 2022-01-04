@@ -5,10 +5,12 @@ interface Props {
     children: React.ReactNode;
 }
 
-export const Page = ({ children }: Props) => {
+const Page = ({ children }: Props) => {
     return (
         <div className={css.page}>
             {children}
         </div>
     )
 }
+
+export default Page;

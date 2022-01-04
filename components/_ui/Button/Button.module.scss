@@ -1,0 +1,58 @@
+@import '/sass/shared';
+
+.button {
+    height: 64px;
+    width: 180px;
+    border: thin solid $grayMedium;
+    background-color: $white;
+
+    &,
+    & > button {
+        font-size: 20px;
+        text-transform: uppercase;
+        border-radius: $borderRadius;
+        overflow: hidden;
+    }
+
+    button {
+        @include relativeFullSpace;
+        @include flexCenter;
+        border: none;
+        background-color: transparent;
+    }
+
+    .icon,
+    .text {
+        display: inline-block;
+        line-height: 1em;
+    }
+
+    .icon {
+        height: 20px;
+        margin-top: -6px;
+        padding-right: 8px;
+        img {
+            height: 100%;
+        }
+    }
+
+    // Button weight/style
+    &.primary {
+        background-color: $white;
+    }
+    &.secondary {
+        background-color: $gray;
+    }
+
+    // Button size
+    &.large {
+        height: 90px;
+        width: 280px;
+        border: 2px solid $grayMedium;
+
+        &,
+        & > button {
+            font-size: 24px;
+        }
+    }
+}

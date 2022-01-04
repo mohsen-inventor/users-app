@@ -9,30 +9,69 @@
 }
 
 .userCard {
+    position: relative;
     padding: 44px 32px;
     border-radius: $borderRadius;
     background-color: $white;
     transition: all 200ms ease-in-out;
 
     &:hover {
-        // transform: scale(1.02);
         box-shadow: 0 0 6px 1px rgba($black, 0.05);
     }
+}
+
+.editAction {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px;
+    border: thin solid red;
 }
 
 .content {
 }
 
 .photoBox {
-    background-color: $bgGreen;
 }
 
 .photo {
+    @include flexCenter;
     height: 100%;
     width: 100%;
     border-radius: 50%;
-    border: $borderRed;
+    overflow: hidden;
+    background-color: $gray;
+
+    img {
+        width: 100%;
+    }
 }
 
-.description {
+.details {
+    padding-top: 28px;
+
+    .name {
+        display: flex;
+        justify-content: space-between;
+    }
+    .date {
+        span {
+            color: $red;
+            font-weight: bold;
+        }
+    }
+    .desc {
+        padding-top: 8px;
+    }
+}
+
+/* Responsive layout
+-----------------------------------------------*/
+@include largeScreen {
+    // .cardWrap {
+    //     $cardWidth: 33.333%;
+
+    //     flex-basis: $cardWidth;
+    //     max-width: $cardWidth;
+    // }
 }

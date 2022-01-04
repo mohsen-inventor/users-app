@@ -2,7 +2,6 @@
 
 .users {
     overflow: hidden;
-    // border: $borderRed;
 }
 
 .header,
@@ -16,13 +15,17 @@
     align-items: center;
 
     .search {
+        // padding-left: 32px;
+    }
+
+    .addAction {
+        // margin-left: auto;
     }
 }
 
 .grid {
     flex-wrap: wrap;
     margin: 32px -32px;
-    // background-color: $bgRed;
 }
 
 .footer {

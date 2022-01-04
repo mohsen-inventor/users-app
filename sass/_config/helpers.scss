@@ -1,0 +1,71 @@
+/* General helpers
+---------------------------------------*/
+@mixin imageFullWidth {
+    width: 100%;
+    height: auto;
+}
+@mixin imageFullHeight {
+    width: auto;
+    height: 100%;
+}
+
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flexTopCenter {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+@mixin fixedFullSpace {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+@mixin absoluteFullSpace {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+@mixin relativeFullSpace {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+@mixin backgroundTint {
+    background-color: $grayTint;
+}
+
+/* Photo helpers
+---------------------------------------*/
+@function setImageRatio($ratio: 'default') {
+    // 20:7.5 ratio (extraWide)
+    @if $ratio == 'extraWide' {
+        @return 37.5%;
+    }
+    // 16:9 ratio (wide)
+    @else if $ratio == 'wide' {
+        @return 56.25%;
+    }
+    // 1:1 ratio (square)
+    @else if $ratio == 'square' {
+        @return 100%;
+    }
+    // 4:3 ratio (default)
+    @else {
+        @return 75%;
+    }
+}

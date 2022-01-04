@@ -1,0 +1,106 @@
+/* Breakpoints 
+----------------------------------------------------------*/
+// device orientation
+$portrait: portrait;
+$landscape: landscape;
+
+// xlarge screen (Extra large screens, TV)
+$xLargeMin: 1201px;
+
+// large screen (Desktops, large screens)
+$largeMax: 1200px;
+$largeMin: 1025px;
+
+// medium screen (Small screens, laptops)
+$mediumMax: 1024px;
+$mediumMin: 769px;
+
+// small screen (iPads, Tablets)
+$smallMax: 768px;
+$smallMin: 481px;
+
+// xsmall screen (Mobile devices)
+$xSmallMax: 667px;
+
+// xxsmall screen (Mobile devices)
+$xxSmallMax: 480px;
+$xxSmallMin: 320px;
+
+// xxxsmall screen (Mobile devices)
+$x3SmallMax: 380px;
+
+/* Media queries mixins
+-----------------------------------------------------------
+Targeting a certain screen size and all smaller
+----------------------------------------------------------*/
+
+@mixin xLargeScreen {
+    @media (min-width: #{$xLargeMin}) {
+        @content;
+    }
+}
+@mixin largeScreen {
+    @media (max-width: #{$largeMax}) {
+        @content;
+    }
+}
+@mixin mediumScreen {
+    @media (max-width: #{$mediumMax}) {
+        @content;
+    }
+}
+@mixin smallScreen {
+    @media (max-width: #{$smallMax}) {
+        @content;
+    }
+}
+@mixin xSmallScreen {
+    @media (max-width: #{$xSmallMax}) {
+        @content;
+    }
+}
+@mixin xxSmallScreen {
+    @media (max-width: #{$xxSmallMax}) {
+        @content;
+    }
+}
+@mixin x3SmallScreen {
+    @media (max-width: #{$x3SmallMax}) {
+        @content;
+    }
+}
+
+/* Media queries mixins
+-----------------------------------------------------------
+Targeting the exact screen sizes (with min and max width)
+----------------------------------------------------------*/
+
+@mixin xLargeScreenExact {
+    @media (min-width: #{$xLargeMin}) {
+        @content;
+    }
+}
+@mixin largeScreenExact {
+    @media (min-width: #{$largeMin}) 
+    and (max-width: #{$largeMax}) {
+        @content;
+    }
+}
+@mixin mediumScreenExact {
+    @media (min-width: #{$mediumMin}) 
+    and (max-width: #{$mediumMax}) {
+        @content;
+    }
+}
+@mixin smallScreenExact {
+    @media (min-width: #{$smallMin}) 
+    and (max-width: #{$smallMax}) {
+        @content;
+    }
+}
+@mixin xSmallScreenExact {
+    @media (min-width: #{$xxSmallMin}) 
+    and (max-width: #{$xxSmallMax}) {
+        @content;
+    }
+}
