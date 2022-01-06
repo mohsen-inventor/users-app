@@ -9,13 +9,73 @@
 
 .modal {
     position: absolute;
-    min-width: 300px;
-    min-height: 300px;
+    width: 100%;
+    max-width: 1200px;
     padding: 64px;
     transform-origin: center center;
     z-index: 10;
     border-radius: $borderRadius;
     background-color: $gray;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 64px;
+
+    h1 {
+    }
+
+    .close {
+    }
+}
+
+.content {
+    display: flex;
+
+    .mapWrap,
+    .form {
+        flex: 1 1 50%;
+    }
+}
+
+.mapWrap {
+    padding-right: 60px;
+
+    .mapRatio {
+        position: relative;
+        width: 100%;
+        padding-bottom: 70%;
+    }
+
+    .map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: $borderRadius;
+        background-color: $white;
+        overflow: hidden;
+    }
+}
+
+.form {
+}
+
+.actions {
+    display: flex;
+    padding-top: 64px;
+    padding-left: 50%;
+
+    .btnWrap {
+        width: 50%;
+
+        &:first-child {
+            padding-right: 32px;
+        }
+        &:last-child {
+            padding-left: 32px;
+        }
+    }
 }
 
 .backdrop {

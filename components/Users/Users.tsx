@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import UserCard from '../UserCard/UserCard';
 import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
@@ -10,29 +10,13 @@ import { startUserEdit } from '../../state/userAction';
 import { useSelector, useDispatch } from 'react-redux';
 
 interface Props {
-
+    usersData: string[],
+    children?: React.ReactNode
 }
 
-const Users = (props: Props) => {
+const Users = ({ usersData, children }: Props) => {
     const dispatch = useDispatch();
-    const [faces, setFaces] = useState([]);
     const { toggleModal, clickCoords } = useSelector<AppState>(state => state.user);
-
-    useEffect(() => {
-        const clientId = 'LBLUhqu1O32TDmZzVvaziMvtTNHrfJX-hXZr5jXzYHU';
-
-        const fetchPhotos = async () => {
-            const response = await fetch(`https://api.unsplash.com/search/photos?client_id=${clientId}&page=4&query=faces`);
-            const { results } = await response.json();
-
-            const thumbs = results.map((item) => {
-                return item.urls.thumb;
-            })
-            setFaces(thumbs);
-        }
-
-        fetchPhotos();
-    }, []);
 
     const arrayOf = (value: number) => {
         const array = [];
@@ -44,7 +28,7 @@ const Users = (props: Props) => {
         return array;
     }
 
-    const openModal = (e) => {
+    const openModal = (e: MouseEvent) => {
         dispatch(startUserEdit(e.clientX, e.clientY));
     }
 
@@ -61,7 +45,7 @@ const Users = (props: Props) => {
             </div>
             <div className={css.grid}>
                 {
-                    faces.map((src, index) => {
+                    usersData.map((src, index) => {
                         return <UserCard data={{ image: src }} key={`user-${index}`} />
                     })
                 }

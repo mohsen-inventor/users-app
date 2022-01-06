@@ -1,6 +1,8 @@
 @import '/sass/shared';
 
 .button {
+    position: relative;
+    display: inline-block;
     height: 64px;
     width: 180px;
     border: thin solid $grayMedium;
@@ -17,17 +19,20 @@
     button {
         @include relativeFullSpace;
         @include flexCenter;
+        margin: 0;
+        padding: 0;
         border: none;
         background-color: transparent;
+        z-index: 2;
     }
 
-    .icon,
+    .iconWrap,
     .text {
         display: inline-block;
         line-height: 1em;
     }
 
-    .icon {
+    .iconWrap {
         height: 20px;
         margin-top: -6px;
         padding-right: 8px;
@@ -43,6 +48,18 @@
     &.secondary {
         background-color: $gray;
     }
+    &.icon {
+        background-color: transparent;
+
+        &,
+        & > button {
+            border-radius: 0;
+        }
+
+        .iconWrap {
+            padding-right: 0;
+        }
+    }
 
     // Button size
     &.large {
@@ -54,5 +71,29 @@
         & > button {
             font-size: 24px;
         }
+    }
+    &.small {
+        height: 48px;
+        width: 48px;
+    }
+
+    // Button width
+    &.full {
+        width: 100%;
+        max-width: 440px;
+    }
+
+    // Border
+    &.removeBorder {
+        border: none;
+    }
+
+    // Animation
+    .background {
+        display: block;
+        @include absoluteFullSpace;
+        left: 101%;
+        background-color: darken($gray, 2);
+        z-index: 1;
     }
 }

@@ -1,6 +1,9 @@
+import { User } from '../types/User';
 import { UserState, UserActionType, UserAction } from './userType';
 
 const initialState: UserState = {
+    loadedUsers: [],
+    currentPage: 1,
     toggleModal: false,
     clickCoords: {
         x: null,

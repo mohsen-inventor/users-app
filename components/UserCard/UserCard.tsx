@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import Circle from '../_ui/Circle/Circle';
 import css from './UserCard.module.scss';
 
@@ -6,6 +6,7 @@ import css from './UserCard.module.scss';
 import { AppState } from '../../state/store';
 import { startUserEdit } from '../../state/userAction';
 import { useSelector, useDispatch } from 'react-redux';
+import Button from '../_ui/Button/Button';
 
 interface Props {
     data: {
@@ -15,16 +16,22 @@ interface Props {
 
 const UserCard = ({ data }: Props) => {
     const dispatch = useDispatch();
-    const { clickCoords } = useSelector<AppState>(state => state.user)
 
-    const openModal = (e) => {
+    const openModal = (e: MouseEvent) => {
+        /* Send user click coordinates to the App state
+        to be used as the starting point for the user modal opening */
         dispatch(startUserEdit(e.clientX, e.clientY));
     }
 
     return (
         <div className={css.cardWrap}>
             <div className={css.userCard}>
-                <div onClick={openModal} className={css.editAction}>Edit</div>
+                <div className={css.deleteAction}>
+                    <Button eClick={openModal} ui={{ type: 'icon', size: 'small', icon: 'delete', animation: 'fade', noBorder: true }} />
+                </div>
+                <div className={css.editAction}>
+                    <Button eClick={openModal} ui={{ type: 'icon', size: 'small', icon: 'edit', animation: 'fade', noBorder: true }} />
+                </div>
                 <div className={css.content}>
                     <div className={css.photoBox}>
                         <Circle ui={{ minWidth: 100 }}>

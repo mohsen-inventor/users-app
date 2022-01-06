@@ -5,7 +5,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import cartReducer from './ShoppingCart/cartReducer';
 import rootSaga from './ShoppingCart/cartSaga';
 import userReducer from './userReducer';
 
@@ -17,7 +16,6 @@ const persistConfig = {
 
 // Root reducer
 const rootReducer = combineReducers({
-    shoppingCart: cartReducer,
     user: userReducer,
 });
 
