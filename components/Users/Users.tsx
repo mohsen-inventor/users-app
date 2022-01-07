@@ -4,13 +4,16 @@ import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
 import css from './Users.module.scss';
 
+// Types
+import { User } from '../../types/User';
+
 // App State (Redux)
 import { AppState } from '../../state/store';
 import { startUserEdit } from '../../state/userAction';
 import { useSelector, useDispatch } from 'react-redux';
 
 interface Props {
-    usersData: string[],
+    usersData: User[],
     children?: React.ReactNode
 }
 
@@ -45,8 +48,8 @@ const Users = ({ usersData, children }: Props) => {
             </div>
             <div className={css.grid}>
                 {
-                    usersData.map((src, index) => {
-                        return <UserCard data={{ image: src }} key={`user-${index}`} />
+                    usersData.map((user, index) => {
+                        return <UserCard data={user} key={`user-${index}`} />
                     })
                 }
             </div>

@@ -66,8 +66,6 @@ const UserEditModal = (props: Props) => {
     const saveUser = async () => {
         const user: User = {
             id: uuidv4(),
-            // id: '468c8cdb-ff9e-4a60-be0a-57706a55562e',
-            // id: '1',
             name: 'Kerolos Armia',
             address: 'Cairo, USA',
             description: 'Civil engineer',

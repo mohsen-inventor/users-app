@@ -67,7 +67,7 @@ const handler = (
                     if (err) {
                         status(500).send('Server side error');
                     } else {
-                        status(201).send('Successfully saved to DB');
+                        status(201).json(userToSave);
                     }
                 }
             );

@@ -2,20 +2,25 @@ import React, { MouseEvent, useEffect, useState } from 'react';
 import Circle from '../_ui/Circle/Circle';
 import css from './UserCard.module.scss';
 
+// Types
+import { User } from '../../types/User';
+
 // App State (Redux)
 import { AppState } from '../../state/store';
 import { startUserEdit } from '../../state/userAction';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '../_ui/Button/Button';
 
+// Hooks
+import { useRandomPhoto } from '../../hooks/useRandomPhoto';
+
 interface Props {
-    data: {
-        image: string
-    }
+    user: User
 }
 
-const UserCard = ({ data }: Props) => {
+const UserCard = ({ user }: Props) => {
     const dispatch = useDispatch();
+    const { loading, photo } = useRandomPhoto();
 
     const openModal = (e: MouseEvent) => {
         /* Send user click coordinates to the App state
@@ -36,7 +41,7 @@ const UserCard = ({ data }: Props) => {
                     <div className={css.photoBox}>
                         <Circle ui={{ minWidth: 100 }}>
                             <div className={css.photo}>
-                                <img src={data.image} />
+                                <img src={photo} />
                             </div>
                         </Circle>
                     </div>

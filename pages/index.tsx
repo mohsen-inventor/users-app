@@ -1,14 +1,17 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Fragment } from 'react'
+import { User } from '../types/User';
 import Users from '../components/Users/Users';
 import axios from 'axios';
 import { axiosPhotos } from '../helpers/axios';
 interface Props {
-  usersData: string[]
+  usersData: User[],
+  currentPage: number,
+  totalCount: number,
 }
 
-const Home: NextPage<Props> = ({ usersData }: Props) => {
+const Home: NextPage<Props> = ({ usersData, currentPage, totalCount }: Props) => {
   return (
     <Fragment>
       <Head>
@@ -26,22 +29,14 @@ const Home: NextPage<Props> = ({ usersData }: Props) => {
 export async function getStaticProps(context) {
   // users data (as dummy data from local json file)
   const usersResponse = await axios.get('http://localhost:3000/api/users');
-  const usersObjects = await usersResponse.data;
-
-  // users photos (as dummy photo from unsplash)
-  const photosApiUrl = 'https://api.unsplash.com/search/photos';
-  const clientId = process.env.NEXT_PUBLIC_UNSPLASH_API_ACCESS_KEY;
-  const photosResponse = await axios.get(`${photosApiUrl}?client_id=${clientId}&page=1&query=faces`);
-  const { results } = await photosResponse.data;
-
-
-
-  let usersData = results.map((item) => {
-    return item.urls.thumb;
-  });
+  const { results, page, count } = await usersResponse.data;
 
   return {
-    props: { usersData }
+    props: {
+      totalCount: count,
+      currentPage: page,
+      usersData: results
+    }
   }
 }
 
