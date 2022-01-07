@@ -1,5 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
 import css from './UserEditModal.module.scss';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+// Types
+import { User } from '../../types/User';
 // App State (Redux)
 import { AppState } from '../../state/store';
 import { endUserEdit } from '../../state/userAction';
@@ -59,6 +63,24 @@ const UserEditModal = (props: Props) => {
 
     }, [toggleModal]);
 
+    const saveUser = async () => {
+        const user: User = {
+            id: uuidv4(),
+            // id: '468c8cdb-ff9e-4a60-be0a-57706a55562e',
+            // id: '1',
+            name: 'Kerolos Armia',
+            address: 'Cairo, USA',
+            description: 'Civil engineer',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        }
+
+        const response = await axios.post('http://localhost:3000/api/users', { user: user });
+        const { data } = await response;
+
+        console.log(data);
+    }
+
     const closeModal = () => {
         dispatch(endUserEdit());
     }
@@ -86,7 +108,7 @@ const UserEditModal = (props: Props) => {
                 </div>
                 <div className={css.actions}>
                     <div className={css.btnWrap}>
-                        <Button ui={{ width: 'full' }}>Save</Button>
+                        <Button eClick={saveUser} ui={{ width: 'full' }}>Save</Button>
                     </div>
                     <div className={css.btnWrap}>
                         <Button eClick={closeModal} ui={{ width: 'full', type: 'secondary' }}>cancel</Button>

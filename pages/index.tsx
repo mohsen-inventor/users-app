@@ -28,9 +28,6 @@ export async function getStaticProps(context) {
   const usersResponse = await axios.get('http://localhost:3000/api/users');
   const usersObjects = await usersResponse.data;
 
-  console.log(usersObjects);
-
-
   // users photos (as dummy photo from unsplash)
   const photosApiUrl = 'https://api.unsplash.com/search/photos';
   const clientId = process.env.NEXT_PUBLIC_UNSPLASH_API_ACCESS_KEY;
