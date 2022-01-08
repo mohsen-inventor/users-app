@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import UserCard from '../UserCard/UserCard';
 import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
@@ -21,11 +21,8 @@ interface Props {
 
 const Users = ({ usersData, totalCount, page }: Props) => {
     const dispatch = useDispatch();
-    const { loadedUsers, currentPage } = useSelector<AppState>(state => state.user);
-
-    useEffect(() => {
-        console.log(loadedUsers);
-    }, [loadedUsers])
+    const loadedUsers = useSelector<AppState, User[]>((state: AppState) => state.user.loadedUsers);
+    const currentPage = useSelector<AppState, number>((state: AppState) => state.user.currentPage);
 
     useEffect(() => {
         dispatch(loadUsers(usersData));
@@ -34,14 +31,14 @@ const Users = ({ usersData, totalCount, page }: Props) => {
     }, [])
 
     const nextPage = () => {
-        dispatch(loadNextPage(currentPage + 1));
+        dispatch(loadNextPage(Number(currentPage) + 1));
     }
 
     const openModal = (e: MouseEvent) => {
         dispatch(startUserEdit(e.clientX, e.clientY));
     }
 
-    const onInputChange = (e) => {
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         let term = e.target.value.trim();
         console.log('term', term);
         dispatch(filterUsers(term));
@@ -60,7 +57,7 @@ const Users = ({ usersData, totalCount, page }: Props) => {
             </div>
             <div className={css.grid}>
                 {
-                    loadedUsers.map((user: User, index) => {
+                    loadedUsers.map((user: User, index: number) => {
                         return <UserCard userData={user} key={`user-${index}`} />
                     })
                 }

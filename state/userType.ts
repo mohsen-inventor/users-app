@@ -113,7 +113,7 @@ export interface DeleteUserAction {
 export interface RefreshLoadedUsers {
     type: UserActionType.RefreshLoadedUsers;
     payload: {
-        userData: User | User[];
+        userData: User | User[] | any;
         method: RefreshMethod;
     };
 }

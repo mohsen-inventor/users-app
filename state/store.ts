@@ -5,8 +5,14 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import { UserState, UserAction } from './userType';
 import rootSaga from './userSaga';
 import userReducer from './userReducer';
+
+// Store types
+interface RootReducer {
+    user: UserState;
+}
 
 // Persist config
 const persistConfig = {
@@ -15,12 +21,12 @@ const persistConfig = {
 };
 
 // Root reducer
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<RootReducer>({
     user: userReducer,
 });
 
 // Persist reducer
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer<AppState>(persistConfig, rootReducer);
 
 // Saga
 const sagaMiddleware = createSagaMiddleware();
@@ -34,9 +40,10 @@ let store = createStore(
 // Run Saga
 sagaMiddleware.run(rootSaga);
 
+// Export
+export type AppState = ReturnType<typeof rootReducer>;
+
 // Persist store
 let persistor = persistStore(store);
 
-// Export
-export type AppState = ReturnType<typeof rootReducer>;
 export { store, persistor };

@@ -1,12 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
-import { User, UsersResponse, ErrorResponse } from '../../../types/User';
+import {
+    UsersResponse,
+    ErrorResponse,
+    UserResponse,
+} from '../../../types/User';
 import usersDB from '../../../db/users.json';
 
-type GetPage = (page: number) => User[];
+// type GetPage = (page: number) => User[];
 
-const getPage: GetPage = (page) => {
+const getPage = (page: number) => {
     if (page < 1) return [];
     const SIZE = 9;
     const startIndex = page * SIZE - SIZE;
@@ -16,7 +20,7 @@ const getPage: GetPage = (page) => {
 
 const handler = (
     request: NextApiRequest,
-    response: NextApiResponse<UsersResponse | ErrorResponse>
+    response: NextApiResponse<UsersResponse | UserResponse | ErrorResponse>
 ): void => {
     const { method, query } = request;
     const { status } = response;
