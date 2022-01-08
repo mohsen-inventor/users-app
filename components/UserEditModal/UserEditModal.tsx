@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { User } from '../../types/User';
 // App State (Redux)
 import { AppState } from '../../state/store';
-import { endUserEdit } from '../../state/userAction';
+import { endUserEdit, saveUser } from '../../state/userAction';
 import { useSelector, useDispatch } from 'react-redux';
 // GSAP (Animation)
 import { gsap, Power4 } from "gsap";
@@ -15,6 +15,7 @@ import useDisablePageScroll from './../../hooks/useDisablePageScroll';
 // Comps
 import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
+import { getRandomPhoto } from '../../helpers/getRandomPhoto';
 
 interface Props {
 
@@ -63,20 +64,20 @@ const UserEditModal = (props: Props) => {
 
     }, [toggleModal]);
 
-    const saveUser = async () => {
+    const updateUser = async () => {
+        const photo = await getRandomPhoto();
+
         const user: User = {
             id: uuidv4(),
-            name: 'Kerolos Armia',
-            address: 'Cairo, USA',
-            description: 'Civil engineer',
+            name: 'Joy Emad',
+            address: 'Munich, Germany',
+            description: 'Software Engineer',
+            photoUrl: photo,
             createdAt: new Date(),
             updatedAt: new Date(),
-        }
+        };
 
-        const response = await axios.post('http://localhost:3000/api/users', { user: user });
-        const { data } = await response;
-
-        console.log(data);
+        dispatch(saveUser(user));
     }
 
     const closeModal = () => {
@@ -106,7 +107,7 @@ const UserEditModal = (props: Props) => {
                 </div>
                 <div className={css.actions}>
                     <div className={css.btnWrap}>
-                        <Button eClick={saveUser} ui={{ width: 'full' }}>Save</Button>
+                        <Button eClick={updateUser} ui={{ width: 'full' }}>Save</Button>
                     </div>
                     <div className={css.btnWrap}>
                         <Button eClick={closeModal} ui={{ width: 'full', type: 'secondary' }}>cancel</Button>

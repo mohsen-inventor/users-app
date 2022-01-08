@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const useRandomPhoto = () => {
+const useRandomPhoto = (getPhoto: boolean = false) => {
     const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState('');
 
@@ -22,7 +22,7 @@ const useRandomPhoto = () => {
             setPhoto(photo);
             setLoading(false);
         })();
-    }, []);
+    }, [getPhoto]);
 
     return { loading, photo };
 };

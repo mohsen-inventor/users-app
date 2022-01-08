@@ -7,11 +7,11 @@ import axios from 'axios';
 import { axiosPhotos } from '../helpers/axios';
 interface Props {
   usersData: User[],
-  currentPage: number,
+  page: number,
   totalCount: number,
 }
 
-const Home: NextPage<Props> = ({ usersData, currentPage, totalCount }: Props) => {
+const Home: NextPage<Props> = ({ usersData, page, totalCount }: Props) => {
   return (
     <Fragment>
       <Head>
@@ -20,7 +20,7 @@ const Home: NextPage<Props> = ({ usersData, currentPage, totalCount }: Props) =>
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main>
-        <Users usersData={usersData} />
+        <Users page={page} usersData={usersData} totalCount={totalCount} />
       </main>
     </Fragment>
   )
@@ -34,7 +34,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       totalCount: count,
-      currentPage: page,
+      page: page,
       usersData: results
     }
   }

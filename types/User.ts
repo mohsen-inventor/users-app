@@ -3,6 +3,7 @@ export interface User {
     name: string;
     address: string;
     description: string;
+    photoUrl: string;
     createdAt: Date;
     updatedAt: Date;
 }

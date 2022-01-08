@@ -38,10 +38,9 @@ const handler = (
             }
             break;
         }
-
         case 'POST': {
             let updatedUsersDB = usersDB;
-            const userToSave = request.body.user;
+            const userToSave = request.body;
 
             const existingUser = usersDB.find(
                 (user) => user.id === userToSave.id
@@ -73,7 +72,32 @@ const handler = (
             );
             break;
         }
+        case 'DELETE': {
+            const userId = request.body;
 
+            console.log(request.body);
+
+            const foundUser = usersDB.find((user) => user.id === userId);
+
+            if (foundUser) {
+                const updatedUsers = usersDB.filter(
+                    (user) => user.id !== foundUser.id
+                );
+                fs.writeFile(
+                    './db/users.json',
+                    JSON.stringify(updatedUsers),
+                    (err) => {
+                        if (err) {
+                            status(500).send('Server side error');
+                        } else {
+                            status(200).json(foundUser);
+                        }
+                    }
+                );
+            }
+
+            break;
+        }
         default:
             status(405).send('Method Not Allowed');
             break;

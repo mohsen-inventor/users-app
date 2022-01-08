@@ -3,18 +3,29 @@ import { User } from '../types/User';
 // Action type
 export enum UserActionType {
     LoadUsers = 'loadUsers',
+    LoadNextPage = 'loadNextPage',
+    SetCurrentPage = 'setCurrentPage',
+    SetTotalUsersCount = 'setTotalUsersCount',
     FilterUsers = 'filterUsers',
     UpdateCurrentPageNumber = 'UpdateCurrentPageNumber',
     StartUserEdit = 'startUserEdit',
     EndUserEdit = 'endUserEdit',
     SaveUser = 'saveUser',
+    RefreshLoadedUsers = 'refreshLoadedUsers',
     DeleteUser = 'deleteUser',
+}
+
+export enum RefreshMethod {
+    AddUser = 'addUser',
+    RemoveUser = 'removeUser',
+    ReplaceAll = 'replaceAll',
 }
 
 // State
 export interface UserState {
     loadedUsers: User[];
     currentPage: number;
+    totalUsersCount: number;
     toggleModal: boolean;
     clickCoords: {
         x: number | null;
@@ -25,8 +36,28 @@ export interface UserState {
 // Action interface
 export interface LoadUsersAction {
     type: UserActionType.LoadUsers;
-    payload?: {
-        page?: number;
+    payload: {
+        users: User[];
+    };
+}
+
+export interface SetCurrentPageAction {
+    type: UserActionType.SetCurrentPage;
+    payload: {
+        page: number;
+    };
+}
+
+export interface SetTotalUsersCountAction {
+    type: UserActionType.SetTotalUsersCount;
+    payload: {
+        count: number;
+    };
+}
+export interface LoadNextPageAction {
+    type: UserActionType.LoadNextPage;
+    payload: {
+        nextPage: number;
     };
 }
 export interface FilterUsersAction {
@@ -79,12 +110,24 @@ export interface DeleteUserAction {
     };
 }
 
+export interface RefreshLoadedUsers {
+    type: UserActionType.RefreshLoadedUsers;
+    payload: {
+        userData: User | User[];
+        method: RefreshMethod;
+    };
+}
+
 // Generic action type
 export type UserAction =
     | LoadUsersAction
+    | LoadNextPageAction
+    | SetCurrentPageAction
+    | SetTotalUsersCountAction
     | FilterUsersAction
     | UpdateCurrentPageNumberAction
     | SaveUserAction
     | DeleteUserAction
+    | RefreshLoadedUsers
     | StartUserEditAction
     | EndUserEditAction;

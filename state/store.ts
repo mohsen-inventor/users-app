@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import rootSaga from './ShoppingCart/cartSaga';
+import rootSaga from './userSaga';
 import userReducer from './userReducer';
 
 // Persist config

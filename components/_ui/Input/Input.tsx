@@ -5,14 +5,15 @@ interface Props {
     config?: {
         label?: string
         placeholder?: string
-    }
+    },
+    eChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Input = ({ config }: Props) => {
+const Input = ({ config, eChange }: Props) => {
     return (
         <div className={css.input}>
             {<label>{config?.label && <span className={css.labelText}>{config?.label}</span>}
-                <input type='text' placeholder={config?.placeholder || 'Placeholder'} />
+                <input onChange={eChange} type='text' placeholder={config?.placeholder || 'Placeholder'} />
             </label>}
         </div>
     )

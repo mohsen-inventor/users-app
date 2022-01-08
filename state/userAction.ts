@@ -3,19 +3,51 @@ import { User } from '../types/User';
 import {
     UserActionType,
     LoadUsersAction,
+    LoadNextPageAction,
+    SetCurrentPageAction,
+    SetTotalUsersCountAction,
     FilterUsersAction,
     UpdateCurrentPageNumberAction,
     StartUserEditAction,
     EndUserEditAction,
     SaveUserAction,
     DeleteUserAction,
+    RefreshLoadedUsers,
+    RefreshMethod,
 } from './userType';
 
-const loadUsers = (page: number = 1): LoadUsersAction => {
+const loadUsers = (users: User[]): LoadUsersAction => {
     return {
         type: UserActionType.LoadUsers,
         payload: {
+            users: users,
+        },
+    };
+};
+
+const setCurrentPage = (page: number): SetCurrentPageAction => {
+    return {
+        type: UserActionType.SetCurrentPage,
+        payload: {
             page: page,
+        },
+    };
+};
+
+const setTotalUsersCount = (count: number): SetTotalUsersCountAction => {
+    return {
+        type: UserActionType.SetTotalUsersCount,
+        payload: {
+            count: count,
+        },
+    };
+};
+
+const loadNextPage = (page: number): LoadNextPageAction => {
+    return {
+        type: UserActionType.LoadNextPage,
+        payload: {
+            nextPage: page,
         },
     };
 };
@@ -24,7 +56,7 @@ const filterUsers = (searchTerm: string): FilterUsersAction => {
     return {
         type: UserActionType.FilterUsers,
         payload: {
-            searchTerm: searchTerm,
+            searchTerm,
         },
     };
 };
@@ -84,12 +116,29 @@ const deleteUser = (userId: string): DeleteUserAction => {
     };
 };
 
+const refreshLoadedUsers = (
+    userData: User | User[],
+    method: RefreshMethod
+): RefreshLoadedUsers => {
+    return {
+        type: UserActionType.RefreshLoadedUsers,
+        payload: {
+            userData,
+            method,
+        },
+    };
+};
+
 export {
     loadUsers,
+    loadNextPage,
+    setCurrentPage,
+    setTotalUsersCount,
     filterUsers,
     updateCurrentPageNumber,
     startUserEdit,
     endUserEdit,
     saveUser,
     deleteUser,
+    refreshLoadedUsers,
 };
