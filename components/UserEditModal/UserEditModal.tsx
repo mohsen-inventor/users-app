@@ -38,6 +38,10 @@ const UserEditModal = (props: Props) => {
     useDisablePageScroll(toggleModal);
 
     useEffect(() => {
+        resetModalPosition(modalRef.current);
+    }, [])
+
+    useEffect(() => {
         const modalWrap = modalWrapRef.current;
         const modal = modalRef.current;
 
@@ -58,8 +62,8 @@ const UserEditModal = (props: Props) => {
             .to(modal, { opacity: 0, duration: 0.2, ease: Power4.easeOut }, '-=0.2')
             .to(modalWrap, {
                 display: 'none', opacity: 0, duration: 0.3, ease: Power4.easeInOut, onComplete: () => {
-                    // Reset modal position
-                    gsap.set(modal, { opacity: 1, scale: 1, xPercent: -50, yPercent: -50, left: "50%", top: "50%" });
+                    // Reset/center modal position
+                    resetModalPosition(modal);
                 }
             }, '-=0.2');
 
@@ -85,6 +89,11 @@ const UserEditModal = (props: Props) => {
         dispatch(endUserEdit());
     }
 
+    const resetModalPosition = (modal: HTMLLIElement | null) => {
+        // Reset modal position
+        gsap.set(modal, { opacity: 1, scale: 1, xPercent: -50, yPercent: -50, left: "50%", top: "50%" });
+    }
+
     return (
         <div ref={modalWrapRef} className={`${css.userEditModal}`}>
             <form ref={modalRef} className={`${css.modal} ${css.form}`}>
@@ -108,7 +117,7 @@ const UserEditModal = (props: Props) => {
                 </div>
                 <div className={css.actions}>
                     <div className={css.btnWrap}>
-                        <Button eClick={updateUser} config={{ type: 'submit' }} ui={{ width: 'full' }}>Save</Button>
+                        <Button eClick={updateUser} config={{ type: 'button' }} ui={{ width: 'full' }}>Save</Button>
                     </div>
                     <div className={css.btnWrap}>
                         <Button eClick={closeModal} config={{ type: 'reset' }} ui={{ width: 'full', type: 'secondary' }}>cancel</Button>

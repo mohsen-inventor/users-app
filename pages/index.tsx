@@ -28,7 +28,7 @@ const Home: NextPage<Props> = ({ usersData, page, totalCount }: Props) => {
 
 export async function getStaticProps() {
   // users data (as dummy data from local json file)
-  const usersResponse = await axios.get('http://localhost:3000/api/users');
+  const usersResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER}/api/users`);
   const { results, page, count } = await usersResponse.data;
 
   return {

@@ -21,7 +21,7 @@ function* fetchNexPageUsers(action: LoadNextPageAction) {
     try {
         const { data } = yield call(
             axios.get,
-            `http://localhost:3000/api/users?page=${action.payload.nextPage}`
+            `${process.env.NEXT_PUBLIC_SERVER}/api/users?page=${action.payload.nextPage}`
         );
 
         const { page, results: users, count } = yield data;
@@ -40,7 +40,7 @@ function* saveUser(action: SaveUserAction) {
     try {
         const { data: user } = yield call(
             axios.post,
-            'http://localhost:3000/api/users',
+            `${process.env.NEXT_PUBLIC_SERVER}/api/users`,
             action.payload.user
         );
 
@@ -54,7 +54,7 @@ function* deleteUser(action: DeleteUserAction) {
     try {
         const { data: user } = yield call(
             axios.delete,
-            'http://localhost:3000/api/users',
+            `${process.env.NEXT_PUBLIC_SERVER}/api/users`,
             { data: action.payload.userId }
         );
 
@@ -68,7 +68,7 @@ function* searchUsers(action: FilterUsersAction) {
     try {
         const { data } = yield call(
             axios.get,
-            `http://localhost:3000/api/users/search?term=${action.payload.searchTerm}`
+            `${process.env.NEXT_PUBLIC_SERVER}/api/users/search?term=${action.payload.searchTerm}`
         );
 
         const { results: foundUsers } = yield data;
