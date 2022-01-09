@@ -64,7 +64,7 @@ const handler = (
             }
 
             fs.writeFile(
-                './db/users.json',
+                'db/users.json',
                 JSON.stringify(updatedUsersDB),
                 (err) => {
                     if (err) {
@@ -86,7 +86,7 @@ const handler = (
                     (user) => user.id !== foundUser.id
                 );
                 fs.writeFile(
-                    './db/users.json',
+                    `db/users.json`,
                     JSON.stringify(updatedUsers),
                     (err) => {
                         if (err) {
