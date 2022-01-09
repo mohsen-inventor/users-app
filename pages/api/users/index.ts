@@ -64,8 +64,6 @@ const handler = (
                 updatedUsersDB.push(userToSave);
             }
 
-            path.join();
-
             fs.writeFile(
                 `${process.env.NEXT_PUBLIC_ROOT_PATH}/db/users.json`,
                 JSON.stringify(updatedUsersDB),
