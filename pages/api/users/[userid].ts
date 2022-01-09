@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { User, UserResponse, ErrorResponse } from '../../../types/User';
-import usersData from '../../../db/users.json';
+import usersDB from './../../../public/db/users.json';
 
 // type GetUser = (userid: string) => User | undefined;
 
 const getUser = (userid: string) => {
-    return usersData.find((user) => user.id === userid);
+    return usersDB.find((user) => user.id === userid);
 };
 
 const handler = (

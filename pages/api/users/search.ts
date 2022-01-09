@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import { UsersResponse, ErrorResponse } from '../../../types/User';
-import usersDB from '../../../db/users.json';
+import usersDB from './../../../public/db/users.json';
 
 const handler = (
     request: NextApiRequest,

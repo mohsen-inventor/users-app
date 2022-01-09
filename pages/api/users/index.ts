@@ -6,7 +6,7 @@ import {
     ErrorResponse,
     UserResponse,
 } from '../../../types/User';
-import usersDB from '../../../db/users.json';
+import usersDB from './../../../public/db/users.json';
 
 // type GetPage = (page: number) => User[];
 
@@ -64,7 +64,7 @@ const handler = (
             }
 
             fs.writeFile(
-                'db/users.json',
+                './public/db/users.json',
                 JSON.stringify(updatedUsersDB),
                 (err) => {
                     if (err) {
@@ -86,7 +86,7 @@ const handler = (
                     (user) => user.id !== foundUser.id
                 );
                 fs.writeFile(
-                    `db/users.json`,
+                    `./public/db/users.json`,
                     JSON.stringify(updatedUsers),
                     (err) => {
                         if (err) {
