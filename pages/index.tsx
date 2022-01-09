@@ -4,11 +4,10 @@ import { Fragment } from 'react'
 import { User } from '../types/User';
 import Users from '../components/Users/Users';
 import axios from 'axios';
-import { axiosPhotos } from '../helpers/axios';
 interface Props {
-  usersData: User[],
   page: number,
   totalCount: number,
+  usersData: User[],
 }
 
 const Home: NextPage<Props> = ({ usersData, page, totalCount }: Props) => {
@@ -27,14 +26,14 @@ const Home: NextPage<Props> = ({ usersData, page, totalCount }: Props) => {
 }
 
 export async function getStaticProps() {
-  // users data (as dummy data from local json file)
+
   const usersResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER}/api/users`);
-  const { results, page, count } = await usersResponse.data;
+  const { page, count, results } = await usersResponse.data;
 
   return {
     props: {
-      totalCount: count,
       page: page,
+      totalCount: count,
       usersData: results
     }
   }

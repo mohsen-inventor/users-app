@@ -22,7 +22,6 @@ const UserCard = ({ userData }: Props) => {
     }
 
     const onDeleteUser = () => {
-        console.log(userData.id);
         dispatch(deleteUser(userData.id));
     }
 

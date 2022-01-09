@@ -4,7 +4,6 @@ import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
 import css from './Users.module.scss';
 
-
 // Types
 import { User } from '../../types/User';
 

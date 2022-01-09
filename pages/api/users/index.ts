@@ -79,8 +79,6 @@ const handler = (
         case 'DELETE': {
             const userId = request.body;
 
-            console.log(request.body);
-
             const foundUser = usersDB.find((user) => user.id === userId);
 
             if (foundUser) {
