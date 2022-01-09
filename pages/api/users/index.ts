@@ -7,6 +7,7 @@ import {
     UserResponse,
 } from '../../../types/User';
 import usersDB from './../../../public/db/users.json';
+import path from 'path/posix';
 
 // type GetPage = (page: number) => User[];
 
@@ -63,6 +64,8 @@ const handler = (
                 updatedUsersDB.push(userToSave);
             }
 
+            path.join();
+
             fs.writeFile(
                 `${process.env.NEXT_PUBLIC_ROOT_PATH}/db/users.json`,
                 JSON.stringify(updatedUsersDB),
@@ -86,7 +89,8 @@ const handler = (
                     (user) => user.id !== foundUser.id
                 );
                 fs.writeFile(
-                    `${process.env.NEXT_PUBLIC_ROOT_PATH}/db/users.json`,
+                    path.join(process.cwd(), 'public/db/users.json'),
+                    // `${process.env.NEXT_PUBLIC_ROOT_PATH}/db/users.json`,
                     JSON.stringify(updatedUsers),
                     (err) => {
                         if (err) {
