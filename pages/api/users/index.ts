@@ -89,8 +89,7 @@ const handler = (
                     (user) => user.id !== foundUser.id
                 );
                 fs.writeFile(
-                    path.join(process.cwd(), 'public/db/users.json'),
-                    // `${process.env.NEXT_PUBLIC_ROOT_PATH}/db/users.json`,
+                    `${process.env.NEXT_PUBLIC_ROOT_PATH}/db/users.json`,
                     JSON.stringify(updatedUsers),
                     (err) => {
                         if (err) {
