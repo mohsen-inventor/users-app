@@ -80,9 +80,16 @@ const userReducer = (state: UserState = initialState, action: UserAction) => {
                     updatedUsers = userData;
             }
 
+            // Display newly added users first
+            let sortedUsers = updatedUsers.sort(
+                (a: User, b: User) =>
+                    new Date(b.updatedAt).getTime() -
+                    new Date(a.updatedAt).getTime()
+            );
+
             return {
                 ...state,
-                loadedUsers: updatedUsers,
+                loadedUsers: sortedUsers,
             };
         default:
             return state;
