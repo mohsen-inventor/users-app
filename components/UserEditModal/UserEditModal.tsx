@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState, Ref, RefObject } from 'react'
 import css from './UserEditModal.module.scss';
-import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 // Types
 import { User } from '../../types/User';
 import { ClickCoords } from '../../types/Ui';
-import { InputProps } from './../../types/Form';
+import { InputProps, InputType } from './../../types/Form';
 // App State (Redux)
 import { AppState } from '../../state/store';
 import { endUserEdit, saveUser } from '../../state/userAction';
@@ -19,6 +20,12 @@ import { getRandomPhoto } from '../../helpers/getRandomPhoto';
 // Comps
 import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
+
+interface UserForm {
+    fullName: InputProps,
+    address: InputProps,
+    description: InputProps
+}
 
 interface Props {
 
@@ -38,17 +45,37 @@ const UserEditModal = (props: Props) => {
     // enable/disable page scroll based on modal open/close status
     useDisablePageScroll(toggleModal);
 
-    const nameInput: InputProps = {
-        config: {
-            label: 'full name',
-            placeholder: 'e.g Mo Salah'
+    // Form managed by formik hook
+    const formik = useFormik({
+        initialValues: {
+            fullName: '',
+            address: '',
+            description: ''
         },
-        validation: {
-            messages: {
-                nameRequiredMsg: 'Name is required',
-                addressMsg: 'Address is required',
-                descriptionMsg: 'Description is required'
-            }
+        onSubmit: values => {
+            console.log(values);
+        }
+    })
+
+    // Form controls config
+    const formConfig: UserForm = {
+        fullName: {
+            label: 'full name',
+            placeholder: 'e.g Mo Salah',
+            value: formik.values.fullName,
+            validationRules: yup.string().required('full name is required'),
+        },
+        address: {
+            label: 'address',
+            placeholder: 'Cairo, Egypt',
+            value: formik.values.address,
+            validationRules: yup.string().required('address is required'),
+        },
+        description: {
+            label: 'description',
+            placeholder: 'Please type your description here',
+            value: formik.values.description,
+            validationRules: yup.string().required('description is required')
         }
     }
 
@@ -111,7 +138,7 @@ const UserEditModal = (props: Props) => {
 
     return (
         <div ref={modalWrapRef} className={`${css.userEditModal}`}>
-            <form ref={modalRef} className={`${css.modal} ${css.form}`}>
+            <form onSubmit={formik.handleSubmit} ref={modalRef} className={`${css.modal} ${css.form}`}>
                 <div className={css.header}>
                     <h1>Edit user</h1>
                     <div className={css.close}>
@@ -125,14 +152,14 @@ const UserEditModal = (props: Props) => {
                         </div>
                     </div>
                     <div className={css.formInputs}>
-                        <Input {...nameInput} />
-                        <Input config={{ label: 'address', placeholder: 'Liverpool, UK' }} />
-                        <Input config={{ label: 'description', placeholder: 'One of the best football players in the world' }} />
+                        <Input id='fullName' eChange={formik.handleChange} {...formConfig.fullName} />
+                        <Input id='address' eChange={formik.handleChange} {...formConfig.address} />
+                        <Input id='description' eChange={formik.handleChange} {...formConfig.description} />
                     </div>
                 </div>
                 <div className={css.actions}>
                     <div className={css.btnWrap}>
-                        <Button eClick={updateUser} config={{ type: 'button' }} ui={{ width: 'full' }}>Save</Button>
+                        <Button eClick={updateUser} config={{ type: 'submit' }} ui={{ width: 'full' }}>Save</Button>
                     </div>
                     <div className={css.btnWrap}>
                         <Button eClick={closeModal} config={{ type: 'reset' }} ui={{ width: 'full', type: 'secondary' }}>cancel</Button>

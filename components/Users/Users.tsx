@@ -48,7 +48,7 @@ const Users = ({ usersData, totalCount, page }: Props) => {
             <div className={css.header}>
                 <h1>Users list</h1>
                 <div className={css.search}>
-                    <Input eChange={onInputChange} config={{ placeholder: 'Search...' }} />
+                    <Input eChange={onInputChange} placeholder='Search...' />
                 </div>
                 <div className={css.addAction}>
                     <Button eClick={openModal} ui={{ icon: 'add-user' }}>add user</Button>
