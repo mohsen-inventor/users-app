@@ -2,10 +2,10 @@ export interface InputProps {
     config?: {
         label?: string;
         placeholder?: string;
-        validation?: {
-            rules: {};
-            messages: {};
-        };
+    };
+    validation?: {
+        messages?: {};
+        rules?: {};
     };
     value?: {};
     isValid?: boolean;

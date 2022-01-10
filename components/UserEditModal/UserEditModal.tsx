@@ -42,6 +42,13 @@ const UserEditModal = (props: Props) => {
         config: {
             label: 'full name',
             placeholder: 'e.g Mo Salah'
+        },
+        validation: {
+            messages: {
+                nameRequiredMsg: 'Name is required',
+                addressMsg: 'Address is required',
+                descriptionMsg: 'Description is required'
+            }
         }
     }
 

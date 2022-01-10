@@ -3,11 +3,11 @@ import css from './Input.module.scss';
 // Types
 import { InputProps } from './../../../types/Form';
 
-const Input = (props: InputProps) => {
+const Input = ({ config, validation, value, isValid, eChange }: InputProps) => {
     return (
         <div className={css.input}>
-            {<label>{props.config?.label && <span className={css.labelText}>{props.config?.label}</span>}
-                <input onChange={props.eChange} type='text' placeholder={props.config?.placeholder || 'Placeholder'} />
+            {<label>{config?.label && <span className={css.labelText}>{config?.label}</span>}
+                <input onChange={eChange} type='text' placeholder={config?.placeholder || 'Placeholder'} />
             </label>}
         </div>
     )
