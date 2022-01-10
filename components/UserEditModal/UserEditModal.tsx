@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Types
 import { User } from '../../types/User';
 import { ClickCoords } from '../../types/Ui';
+import { InputProps } from './../../types/Form';
 // App State (Redux)
 import { AppState } from '../../state/store';
 import { endUserEdit, saveUser } from '../../state/userAction';
@@ -36,6 +37,13 @@ const UserEditModal = (props: Props) => {
 
     // enable/disable page scroll based on modal open/close status
     useDisablePageScroll(toggleModal);
+
+    const nameInput: InputProps = {
+        config: {
+            label: 'full name',
+            placeholder: 'e.g Mo Salah'
+        }
+    }
 
     useEffect(() => {
         resetModalPosition(modalRef.current);
@@ -110,7 +118,7 @@ const UserEditModal = (props: Props) => {
                         </div>
                     </div>
                     <div className={css.formInputs}>
-                        <Input config={{ label: 'name', placeholder: 'Mo Salah' }} />
+                        <Input {...nameInput} />
                         <Input config={{ label: 'address', placeholder: 'Liverpool, UK' }} />
                         <Input config={{ label: 'description', placeholder: 'One of the best football players in the world' }} />
                     </div>
