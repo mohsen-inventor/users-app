@@ -1,11 +1,11 @@
 export interface InputProps {
+    id?: string;
     type?: InputType;
     label?: string;
     placeholder?: string;
-    id?: string;
     value?: any;
     validationRules?: any;
-    isValid?: boolean;
+    isValid: (e: boolean) => boolean;
     eChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

@@ -1,32 +1,46 @@
-import React, { ChangeEvent, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import css from './Input.module.scss';
 // Types
 import { InputProps, InputType } from './../../../types/Form';
 
 const Input = ({ id, value, label, type, placeholder, validationRules, isValid, eChange }: InputProps) => {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const [errors, setErrors] = useState([]);
 
     // Validation schema
     let schema = yup.object().shape({
-        inputValue: validationRules
+        val: validationRules
     })
 
     const onBlur = (e: any) => {
-        schema.validate(e.target.value).catch((err) => {
-            // console.log(err.errors);
+        let val = e.target.value;
+
+        schema.validate({ val }).catch(err => {
+            setErrors(err.errors);
+        });
+
+        schema.isValid({ val }).then(valid => {
+            if (valid) {
+                setErrors([]);
+            }
+            isValid(valid); // send the input valid status to the parent form
         });
     }
 
     return (
         <div className={css.input}>
-            {<label>{label && <span className={css.labelText}>{label}</span>}
+            {<label>
+                <span className={css.textWrap}>
+                    {label && <span className={css.labelText}>{label}</span>}
+                    {errors && <span className={css.error}>{errors}</span>}
+                </span>
                 <input
-                    ref={inputRef} id={id} name={id}
-                    onBlur={onBlur} value={value} onChange={eChange}
+                    id={id} name={id} value={value}
+                    onBlur={onBlur} onChange={eChange}
                     type={type || InputType.Text}
                     placeholder={placeholder || 'Placeholder'} />
             </label>}
+
         </div>
     )
 }

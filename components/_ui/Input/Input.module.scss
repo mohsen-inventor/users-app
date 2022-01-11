@@ -22,17 +22,29 @@
         border-radius: $borderRadius;
     }
 
+    .textWrap {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .labelText {
+        font-family: $fontBold;
+        font-size: 18px;
+        text-transform: capitalize;
+        padding-bottom: 8px;
+    }
+
+    .error {
+        color: $redBright;
+        &::first-letter {
+            text-transform: capitalize;
+        }
+    }
+
     label {
         &,
         .labelText {
             display: block;
-        }
-
-        .labelText {
-            font-family: $fontBold;
-            font-size: 18px;
-            text-transform: capitalize;
-            padding-bottom: 8px;
         }
     }
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, Ref, RefObject } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import css from './UserEditModal.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { useFormik } from 'formik';
@@ -35,13 +35,10 @@ const UserEditModal = (props: Props) => {
     const dispatch = useDispatch();
     const toggleModal = useSelector<AppState, boolean>((state: AppState) => state.user.toggleModal);
     const clickCoords = useSelector<AppState, ClickCoords>((state: AppState) => state.user.clickCoords);
-
     const [prevCoords, setPrevCoords] = useState(clickCoords);
-
     // GSAP animation timeline
     const modalWrapRef = useRef(null)
     const modalRef = useRef(null);
-
     // enable/disable page scroll based on modal open/close status
     useDisablePageScroll(toggleModal);
 
@@ -64,18 +61,21 @@ const UserEditModal = (props: Props) => {
             placeholder: 'e.g Mo Salah',
             value: formik.values.fullName,
             validationRules: yup.string().required('full name is required'),
+            isValid: valid => { return valid },
         },
         address: {
             label: 'address',
             placeholder: 'Cairo, Egypt',
             value: formik.values.address,
             validationRules: yup.string().required('address is required'),
+            isValid: valid => { return valid },
         },
         description: {
             label: 'description',
             placeholder: 'Please type your description here',
             value: formik.values.description,
-            validationRules: yup.string().required('description is required')
+            validationRules: yup.string().required('description is required'),
+            isValid: valid => { return valid },
         }
     }
 
