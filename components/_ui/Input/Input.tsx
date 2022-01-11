@@ -20,10 +20,9 @@ const Input = ({ id, value, label, type, placeholder, validationRules, isValid, 
         });
 
         schema.isValid({ val }).then(valid => {
-            if (valid) {
-                setErrors([]);
-            }
-            isValid(valid); // send the input valid status to the parent form
+            valid ? setErrors([]) : null;
+            // send the input valid status to the parent form
+            isValid ? isValid(valid) : null;
         });
     }
 
