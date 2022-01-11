@@ -14,6 +14,11 @@
         width: 100%;
     }
 
+    input,
+    .error {
+        transition: all 200ms ease-in-out;
+    }
+
     input {
         height: 64px;
         padding: 0 16px;
@@ -35,7 +40,12 @@
     }
 
     .error {
+        font-size: 15px;
+        font-family: $fontBold;
         color: $redBright;
+        opacity: 0;
+        z-index: -1;
+
         &::first-letter {
             text-transform: capitalize;
         }
@@ -45,6 +55,13 @@
         &,
         .labelText {
             display: block;
+        }
+    }
+
+    // Input error status
+    &.hasError {
+        input {
+            border-color: $redBright;
         }
     }
 }

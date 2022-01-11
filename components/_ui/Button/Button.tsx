@@ -5,7 +5,8 @@ import { gsap, Power4 } from 'gsap';
 
 interface Props {
     config?: {
-        type: 'button' | 'submit' | 'reset' // html button type
+        type?: 'button' | 'submit' | 'reset', // html button type
+        disable?: boolean
     }
     ui?: {
         type?: 'primary' | 'secondary' | 'icon' // ui weight type
@@ -25,10 +26,13 @@ const Button = ({ config, ui, eClick, children }: Props) => {
     let uiOptions = `${css[ui?.type || 'primary']} 
                      ${css[ui?.size || 'default']}
                      ${css[ui?.width || 'default']}
-                     ${ui?.noBorder && css.removeBorder}`;
+                     ${ui?.noBorder && css.removeBorder}
+                     ${config?.disable && css.disabled}`;
 
     const onHover = () => {
         const bg = bgRef.current;
+
+        if (config?.disable) return;
 
         // Fade animation
         if (ui?.animation === 'fade') {
@@ -55,7 +59,7 @@ const Button = ({ config, ui, eClick, children }: Props) => {
 
     return (
         <div onMouseEnter={onHover} onMouseLeave={onHoverOut} className={`${css.button} ${uiOptions} `}>
-            <button onClick={eClick} type={config?.type || 'button'}>
+            <button onClick={eClick} type={config?.type || 'button'} disabled={config?.disable}>
                 {ui?.icon &&
                     <span className={css.iconWrap}>
                         <img src={`/images/${ui.icon}.svg`} />

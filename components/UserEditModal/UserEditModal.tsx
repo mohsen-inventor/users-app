@@ -36,6 +36,12 @@ const UserEditModal = (props: Props) => {
     const toggleModal = useSelector<AppState, boolean>((state: AppState) => state.user.toggleModal);
     const clickCoords = useSelector<AppState, ClickCoords>((state: AppState) => state.user.clickCoords);
     const [prevCoords, setPrevCoords] = useState(clickCoords);
+
+    const [isFullNameValid, setFullNameValid] = useState(false);
+    const [isAddressValid, setAddressValid] = useState(false);
+    const [isDescValid, setDescValid] = useState(false);
+    const [isFormValid, setFormValid] = useState(false)
+
     // GSAP animation timeline
     const modalWrapRef = useRef(null)
     const modalRef = useRef(null);
@@ -50,6 +56,7 @@ const UserEditModal = (props: Props) => {
             description: ''
         },
         onSubmit: values => {
+            console.log('Form:', isFormValid);
             console.log(values);
         }
     })
@@ -61,27 +68,35 @@ const UserEditModal = (props: Props) => {
             placeholder: 'e.g Mo Salah',
             value: formik.values.fullName,
             validationRules: yup.string().required('full name is required'),
-            isValid: valid => { return valid },
+            isValid: status => setFullNameValid(status),
         },
         address: {
             label: 'address',
             placeholder: 'Cairo, Egypt',
             value: formik.values.address,
             validationRules: yup.string().required('address is required'),
-            isValid: valid => { return valid },
+            isValid: status => setAddressValid(status),
         },
         description: {
             label: 'description',
             placeholder: 'Please type your description here',
             value: formik.values.description,
             validationRules: yup.string().required('description is required'),
-            isValid: valid => { return valid },
+            isValid: status => setDescValid(status),
         }
+    }
+
+    const getValidStatus = (): boolean => {
+        return isFullNameValid && isAddressValid && isDescValid;
     }
 
     useEffect(() => {
         resetModalPosition(modalRef.current);
     }, [])
+
+    useEffect(() => {
+        setFormValid(getValidStatus());
+    }, [isFullNameValid, isAddressValid, isDescValid])
 
     useEffect(() => {
         const modalWrap = modalWrapRef.current;
@@ -110,6 +125,7 @@ const UserEditModal = (props: Props) => {
             }, '-=0.2');
 
     }, [toggleModal, clickCoords]);
+
 
     const updateUser = async () => {
         const photoUrl = await getRandomPhoto();
@@ -159,7 +175,7 @@ const UserEditModal = (props: Props) => {
                 </div>
                 <div className={css.actions}>
                     <div className={css.btnWrap}>
-                        <Button eClick={updateUser} config={{ type: 'submit' }} ui={{ width: 'full' }}>Save</Button>
+                        <Button eClick={updateUser} config={{ type: 'submit', disable: !isFormValid }} ui={{ width: 'full' }}>Save</Button>
                     </div>
                     <div className={css.btnWrap}>
                         <Button eClick={closeModal} config={{ type: 'reset' }} ui={{ width: 'full', type: 'secondary' }}>cancel</Button>

@@ -14,6 +14,7 @@
         text-transform: uppercase;
         border-radius: $borderRadius;
         overflow: hidden;
+        transition: all 200ms ease-in-out;
     }
 
     button {
@@ -86,6 +87,15 @@
     // Border
     &.removeBorder {
         border: none;
+    }
+
+    // Disable status
+    &.disabled {
+        background-color: darken($gray, 4);
+
+        button {
+            color: lighten($black, 70);
+        }
     }
 
     // Animation

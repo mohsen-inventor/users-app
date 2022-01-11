@@ -1,11 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as yup from 'yup';
 import css from './Input.module.scss';
+import { gsap, Power4, Bounce } from 'gsap';
 // Types
 import { InputProps, InputType } from './../../../types/Form';
 
 const Input = ({ id, value, label, type, placeholder, validationRules, isValid, eChange }: InputProps) => {
     const [errors, setErrors] = useState([]);
+    const [hasError, setHasError] = useState(false);
+    const errRef = useRef(null);
+
+    useEffect(() => {
+        if (hasError) {
+            // Show error
+            gsap.to(errRef.current, { y: 0, opacity: 1, duration: 0.2, ease: Bounce.easeOut });
+        } else {
+            // Hide error
+            gsap.to(errRef.current, { y: 40, opacity: 0, duration: 0.2, ease: Bounce.easeIn });
+        }
+    }, [hasError])
 
     // Validation schema
     let schema = yup.object().shape({
@@ -13,7 +26,7 @@ const Input = ({ id, value, label, type, placeholder, validationRules, isValid, 
     })
 
     const onBlur = (e: any) => {
-        let val = e.target.value;
+        let val = e.target.value.trim();
 
         schema.validate({ val }).catch(err => {
             setErrors(err.errors);
@@ -23,15 +36,16 @@ const Input = ({ id, value, label, type, placeholder, validationRules, isValid, 
             valid ? setErrors([]) : null;
             // send the input valid status to the parent form
             isValid ? isValid(valid) : null;
+            setHasError(!valid);
         });
     }
 
     return (
-        <div className={css.input}>
+        <div className={`${css.input} ${hasError && css.hasError}`}>
             {<label>
                 <span className={css.textWrap}>
                     {label && <span className={css.labelText}>{label}</span>}
-                    {errors && <span className={css.error}>{errors}</span>}
+                    {errors && <span ref={errRef} className={css.error}>{errors}</span>}
                 </span>
                 <input
                     id={id} name={id} value={value}

@@ -5,7 +5,7 @@ export interface InputProps {
     placeholder?: string;
     value?: any;
     validationRules?: any;
-    isValid?: (e: boolean) => boolean;
+    isValid?: (e: boolean) => void;
     eChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
