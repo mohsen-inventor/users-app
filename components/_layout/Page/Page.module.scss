@@ -7,3 +7,12 @@
     margin: 0 auto;
     padding: 60px 40px;
 }
+
+/* Responsive layout
+-----------------------------------------------*/
+@include mediumScreen {
+    .page {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

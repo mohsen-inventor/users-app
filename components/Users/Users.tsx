@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useEffect } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useLayoutEffect, useRef, createRef } from 'react';
 import UserCard from '../UserCard/UserCard';
 import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
@@ -6,7 +6,7 @@ import css from './Users.module.scss';
 // Router
 import { useRouter } from 'next/router';
 // Gsap (Animation)
-import { gsap } from 'gsap';
+import { gsap, } from 'gsap';
 import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 
 // Types

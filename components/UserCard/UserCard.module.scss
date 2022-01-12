@@ -94,10 +94,35 @@
 /* Responsive layout
 -----------------------------------------------*/
 @include largeScreen {
-    // .cardWrap {
-    //     $cardWidth: 33.333%;
+    .cardWrap {
+        padding: 16px;
+    }
+}
 
-    //     flex-basis: $cardWidth;
-    //     max-width: $cardWidth;
-    // }
+@include mediumScreen {
+    .cardWrap {
+        padding: 8px;
+    }
+
+    .userCard {
+        padding: 24px 20px;
+    }
+}
+
+@include xSmallScreen {
+    .cardWrap {
+        $cardWidth: 50%;
+
+        flex-basis: $cardWidth;
+        max-width: $cardWidth;
+    }
+}
+
+@include x3SmallScreen {
+    .cardWrap {
+        $cardWidth: 100%;
+
+        flex-basis: $cardWidth;
+        max-width: $cardWidth;
+    }
 }

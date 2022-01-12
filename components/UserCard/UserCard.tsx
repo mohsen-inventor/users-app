@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useRef } from 'react';
 import Circle from '../_ui/Circle/Circle';
 import css from './UserCard.module.scss';
 // Types
@@ -7,6 +7,7 @@ import { User } from '../../types/User';
 import { deleteUser, startUserEdit } from '../../state/userAction';
 import { useDispatch } from 'react-redux';
 import Button from '../_ui/Button/Button';
+
 
 interface Props {
     userData: User
@@ -54,5 +55,6 @@ const UserCard = ({ userData }: Props) => {
         </div>
     )
 }
+
 
 export default UserCard;

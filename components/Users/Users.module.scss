@@ -42,3 +42,19 @@
         color: darken($grayMedium, 30);
     }
 }
+
+/* Responsive layout
+-----------------------------------------------*/
+@include largeScreen {
+    .grid {
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+}
+
+@include mediumScreen {
+    .grid {
+        margin-left: -8px;
+        margin-right: -8px;
+    }
+}
