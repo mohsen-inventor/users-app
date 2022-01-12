@@ -3,6 +3,7 @@ import axios from 'axios';
 import { User } from '../types/User';
 import {
     UserActionType,
+    FetchNextPageAction,
     LoadNextPageAction,
     SaveUserAction,
     DeleteUserAction,
@@ -14,25 +15,26 @@ import {
     setCurrentPage,
     setTotalUsersCount,
     refreshLoadedUsers,
+    loadNextPage,
 } from './userAction';
 
 // Saga workers
-function* fetchNexPageUsers(action: LoadNextPageAction) {
+function* fetchNexPage(action: FetchNextPageAction) {
     try {
         const { data } = yield call(
             axios.get,
-            `${process.env.NEXT_PUBLIC_SERVER}/api/users?page=${action.payload.nextPage}`
+            `${process.env.NEXT_PUBLIC_SERVER}/api/users?page=${action.payload.pageNum}`
         );
 
-        const { page, results: users, count } = yield data;
+        const { results: users, count } = yield data;
 
         yield put(setTotalUsersCount(count));
-        yield put(setCurrentPage(page));
-        yield put(loadUsers(users));
+        yield put(loadNextPage(users));
 
         console.log(users);
     } catch (error) {
-        console.log(error);
+        // We should handle error here
+        // console.log(error);
     }
 }
 
@@ -46,7 +48,7 @@ function* saveUser(action: SaveUserAction) {
 
         yield put(refreshLoadedUsers(user, RefreshMethod.AddUser));
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -60,7 +62,7 @@ function* deleteUser(action: DeleteUserAction) {
 
         yield put(refreshLoadedUsers(user, RefreshMethod.RemoveUser));
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
@@ -75,14 +77,14 @@ function* searchUsers(action: FilterUsersAction) {
 
         yield put(refreshLoadedUsers(foundUsers, RefreshMethod.ReplaceAll));
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 }
 
 // Saga watcher (rootSaga)
 function* rootSaga() {
     yield all([
-        takeLatest(UserActionType.LoadNextPage, fetchNexPageUsers),
+        takeLatest(UserActionType.FetchNextPage, fetchNexPage),
         takeLatest(UserActionType.SaveUser, saveUser),
         takeLatest(UserActionType.FilterUsers, searchUsers),
         takeLatest(UserActionType.DeleteUser, deleteUser),

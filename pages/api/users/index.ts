@@ -7,15 +7,18 @@ import {
     UserResponse,
 } from '../../../types/User';
 import usersDB from './../../../public/db/users.json';
-import path from 'path/posix';
-
-// type GetPage = (page: number) => User[];
 
 const getPage = (page: number) => {
     if (page < 1) return [];
     const SIZE = 9;
-    const startIndex = page * SIZE - SIZE;
-    const endIndex = startIndex + SIZE;
+    let startIndex = page * SIZE - SIZE;
+    let endIndex = startIndex + SIZE;
+
+    if (page && page > 1) {
+        startIndex = 0;
+        endIndex = SIZE * page;
+    }
+
     return usersDB.slice(startIndex, endIndex);
 };
 
@@ -32,6 +35,7 @@ const handler = (
                 ? query.page.join('')
                 : query.page;
             const pageNum = Number(stringifiedPage ?? 1);
+
             if (isNaN(pageNum) || pageNum < 1) {
                 status(400).send('Bad Request');
             } else {

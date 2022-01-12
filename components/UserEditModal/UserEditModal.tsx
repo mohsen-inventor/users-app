@@ -1,6 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, ReactDOM } from 'react'
+// CSS
 import css from './UserEditModal.module.scss';
+// Generating unique IDs 
 import { v4 as uuidv4 } from 'uuid';
+// Form
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 // Types
@@ -20,6 +23,7 @@ import { getRandomPhoto } from '../../helpers/getRandomPhoto';
 // Comps
 import Button from '../_ui/Button/Button';
 import Input from '../_ui/Input/Input';
+import { call } from 'redux-saga/effects';
 
 interface UserForm {
     fullName: InputProps,
@@ -33,16 +37,17 @@ interface Props {
 
 const UserEditModal = (props: Props) => {
     const dispatch = useDispatch();
+    // App state
     const toggleModal = useSelector<AppState, boolean>((state: AppState) => state.user.toggleModal);
     const clickCoords = useSelector<AppState, ClickCoords>((state: AppState) => state.user.clickCoords);
+    // Coords
     const [prevCoords, setPrevCoords] = useState(clickCoords);
-
+    // Form status
     const [isFullNameValid, setFullNameValid] = useState(false);
     const [isAddressValid, setAddressValid] = useState(false);
     const [isDescValid, setDescValid] = useState(false);
-    const [isFormValid, setFormValid] = useState(false)
-
-    // GSAP animation timeline
+    const [isFormValid, setFormValid] = useState(false);
+    // Refs for GSAP animation
     const modalWrapRef = useRef(null)
     const modalRef = useRef(null);
     // enable/disable page scroll based on modal open/close status
@@ -55,13 +60,25 @@ const UserEditModal = (props: Props) => {
             address: '',
             description: ''
         },
-        onSubmit: values => {
-            console.log('Form:', isFormValid);
-            console.log(values);
+        onSubmit: async (values) => {
+            const photoUrl = await getRandomPhoto();
+
+            const user: User = {
+                id: uuidv4(),
+                name: values.fullName,
+                address: values.address,
+                description: values.description,
+                photoUrl: photoUrl,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+
+            dispatch(saveUser(user));
+            closeModal();
         }
     })
 
-    // Form controls config
+    // Form config based on our custom <Input>
     const formConfig: UserForm = {
         fullName: {
             label: 'full name',
@@ -69,6 +86,7 @@ const UserEditModal = (props: Props) => {
             value: formik.values.fullName,
             validationRules: yup.string().required('full name is required'),
             isValid: status => setFullNameValid(status),
+
         },
         address: {
             label: 'address',
@@ -76,6 +94,7 @@ const UserEditModal = (props: Props) => {
             value: formik.values.address,
             validationRules: yup.string().required('address is required'),
             isValid: status => setAddressValid(status),
+
         },
         description: {
             label: 'description',
@@ -83,21 +102,26 @@ const UserEditModal = (props: Props) => {
             value: formik.values.description,
             validationRules: yup.string().required('description is required'),
             isValid: status => setDescValid(status),
+
         }
     }
 
+    // Form valid status
     const getValidStatus = (): boolean => {
         return isFullNameValid && isAddressValid && isDescValid;
     }
 
+    // on component mount
     useEffect(() => {
         resetModalPosition(modalRef.current);
     }, [])
 
+    // Set form status
     useEffect(() => {
         setFormValid(getValidStatus());
     }, [isFullNameValid, isAddressValid, isDescValid])
 
+    // Animate modal opening/closing
     useEffect(() => {
         const modalWrap = modalWrapRef.current;
         const modal = modalRef.current;
@@ -123,30 +147,15 @@ const UserEditModal = (props: Props) => {
                     resetModalPosition(modal);
                 }
             }, '-=0.2');
-
     }, [toggleModal, clickCoords]);
 
-
-    const updateUser = async () => {
-        const photoUrl = await getRandomPhoto();
-
-        const user: User = {
-            id: uuidv4(),
-            name: 'Joy Emad',
-            address: 'Munich, Germany',
-            description: 'Software Engineer',
-            photoUrl: photoUrl,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
-
-        dispatch(saveUser(user));
-    }
-
+    // Dispatch close modal action
     const closeModal = () => {
         dispatch(endUserEdit());
+        formik.resetForm();
     }
 
+    // Center modal position
     const resetModalPosition = (modal: HTMLLIElement | null) => {
         // Reset modal position
         gsap.set(modal, { opacity: 1, scale: 1, xPercent: -50, yPercent: -50, left: "50%", top: "50%" });
@@ -175,7 +184,7 @@ const UserEditModal = (props: Props) => {
                 </div>
                 <div className={css.actions}>
                     <div className={css.btnWrap}>
-                        <Button eClick={updateUser} config={{ type: 'submit', disable: !isFormValid }} ui={{ width: 'full' }}>Save</Button>
+                        <Button config={{ type: 'submit', disable: !isFormValid }} ui={{ width: 'full' }}>Save</Button>
                     </div>
                     <div className={css.btnWrap}>
                         <Button eClick={closeModal} config={{ type: 'reset' }} ui={{ width: 'full', type: 'secondary' }}>cancel</Button>

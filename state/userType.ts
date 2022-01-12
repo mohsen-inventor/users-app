@@ -3,6 +3,9 @@ import { User } from '../types/User';
 // Action type
 export enum UserActionType {
     LoadUsers = 'loadUsers',
+    FetchToPage = 'fetchToPage',
+    LoadUsersToPage = 'loadUsersToPage',
+    FetchNextPage = 'fetchNextPage',
     LoadNextPage = 'loadNextPage',
     SetCurrentPage = 'setCurrentPage',
     SetTotalUsersCount = 'setTotalUsersCount',
@@ -13,6 +16,7 @@ export enum UserActionType {
     SaveUser = 'saveUser',
     RefreshLoadedUsers = 'refreshLoadedUsers',
     DeleteUser = 'deleteUser',
+    UpdateScroll = 'updateScroll',
 }
 
 export enum RefreshMethod {
@@ -24,7 +28,9 @@ export enum RefreshMethod {
 // State
 export interface UserState {
     loadedUsers: User[];
+    nextUsers: User[];
     currentPage: number;
+    currentScroll: number;
     totalUsersCount: number;
     toggleModal: boolean;
     clickCoords: {
@@ -38,6 +44,7 @@ export interface LoadUsersAction {
     type: UserActionType.LoadUsers;
     payload: {
         users: User[];
+        page?: number;
     };
 }
 
@@ -54,12 +61,33 @@ export interface SetTotalUsersCountAction {
         count: number;
     };
 }
+export interface FetchNextPageAction {
+    type: UserActionType.FetchNextPage;
+    payload: {
+        pageNum: number;
+    };
+}
 export interface LoadNextPageAction {
     type: UserActionType.LoadNextPage;
     payload: {
-        nextPage: number;
+        nextUsers: User[];
     };
 }
+
+export interface FetchToPageAction {
+    type: UserActionType.FetchToPage;
+    payload: {
+        toPage: number;
+    };
+}
+
+export interface LoadUsersToPageAction {
+    type: UserActionType.LoadUsersToPage;
+    payload: {
+        users: User[];
+    };
+}
+
 export interface FilterUsersAction {
     type: UserActionType.FilterUsers;
     payload: {
@@ -110,7 +138,7 @@ export interface DeleteUserAction {
     };
 }
 
-export interface RefreshLoadedUsers {
+export interface RefreshLoadedUsersAction {
     type: UserActionType.RefreshLoadedUsers;
     payload: {
         userData: User | User[] | any;
@@ -118,16 +146,27 @@ export interface RefreshLoadedUsers {
     };
 }
 
+export interface UpdateScrollAction {
+    type: UserActionType.UpdateScroll;
+    payload: {
+        scrollPosition: number;
+    };
+}
+
 // Generic action type
 export type UserAction =
     | LoadUsersAction
+    | FetchNextPageAction
     | LoadNextPageAction
+    | FetchToPageAction
+    | LoadUsersToPageAction
     | SetCurrentPageAction
     | SetTotalUsersCountAction
     | FilterUsersAction
     | UpdateCurrentPageNumberAction
     | SaveUserAction
     | DeleteUserAction
-    | RefreshLoadedUsers
+    | RefreshLoadedUsersAction
     | StartUserEditAction
-    | EndUserEditAction;
+    | EndUserEditAction
+    | UpdateScrollAction;

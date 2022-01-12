@@ -6,7 +6,7 @@ import { gsap, Power4, Bounce } from 'gsap';
 import { InputProps, InputType } from './../../../types/Form';
 
 const Input = ({ id, value, label, type, placeholder, validationRules, isValid, eChange }: InputProps) => {
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState(null);
     const [hasError, setHasError] = useState(false);
     const errRef = useRef(null);
 
@@ -19,6 +19,7 @@ const Input = ({ id, value, label, type, placeholder, validationRules, isValid, 
             gsap.to(errRef.current, { y: 40, opacity: 0, duration: 0.2, ease: Bounce.easeIn });
         }
     }, [hasError])
+
 
     // Validation schema
     let schema = yup.object().shape({
@@ -33,7 +34,7 @@ const Input = ({ id, value, label, type, placeholder, validationRules, isValid, 
         });
 
         schema.isValid({ val }).then(valid => {
-            valid ? setErrors([]) : null;
+            valid ? setErrors(null) : null;
             // send the input valid status to the parent form
             isValid ? isValid(valid) : null;
             setHasError(!valid);
@@ -45,7 +46,7 @@ const Input = ({ id, value, label, type, placeholder, validationRules, isValid, 
             {<label>
                 <span className={css.textWrap}>
                     {label && <span className={css.labelText}>{label}</span>}
-                    {errors && <span ref={errRef} className={css.error}>{errors}</span>}
+                    <span ref={errRef} className={css.error}>{errors}</span>
                 </span>
                 <input
                     id={id} name={id} value={value}
@@ -53,7 +54,6 @@ const Input = ({ id, value, label, type, placeholder, validationRules, isValid, 
                     type={type || InputType.Text}
                     placeholder={placeholder || 'Placeholder'} />
             </label>}
-
         </div>
     )
 }

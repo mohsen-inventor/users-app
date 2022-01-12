@@ -3,7 +3,10 @@ import { User } from '../types/User';
 import {
     UserActionType,
     LoadUsersAction,
+    FetchNextPageAction,
     LoadNextPageAction,
+    FetchToPageAction,
+    LoadUsersToPageAction,
     SetCurrentPageAction,
     SetTotalUsersCountAction,
     FilterUsersAction,
@@ -12,15 +15,17 @@ import {
     EndUserEditAction,
     SaveUserAction,
     DeleteUserAction,
-    RefreshLoadedUsers,
+    RefreshLoadedUsersAction,
+    UpdateScrollAction,
     RefreshMethod,
 } from './userType';
 
-const loadUsers = (users: User[]): LoadUsersAction => {
+const loadUsers = (users: User[], page?: number): LoadUsersAction => {
     return {
         type: UserActionType.LoadUsers,
         payload: {
             users: users,
+            page: page,
         },
     };
 };
@@ -43,11 +48,38 @@ const setTotalUsersCount = (count: number): SetTotalUsersCountAction => {
     };
 };
 
-const loadNextPage = (page: number): LoadNextPageAction => {
+const fetchNextPage = (pageNum: number): FetchNextPageAction => {
+    return {
+        type: UserActionType.FetchNextPage,
+        payload: {
+            pageNum,
+        },
+    };
+};
+
+const loadNextPage = (nextUsers: User[]): LoadNextPageAction => {
     return {
         type: UserActionType.LoadNextPage,
         payload: {
-            nextPage: page,
+            nextUsers,
+        },
+    };
+};
+
+const fetchToPage = (toPage: number): FetchToPageAction => {
+    return {
+        type: UserActionType.FetchToPage,
+        payload: {
+            toPage,
+        },
+    };
+};
+
+const loadUsersToPage = (users: User[]): LoadUsersToPageAction => {
+    return {
+        type: UserActionType.LoadUsersToPage,
+        payload: {
+            users,
         },
     };
 };
@@ -119,7 +151,7 @@ const deleteUser = (userId: string): DeleteUserAction => {
 const refreshLoadedUsers = (
     userData: User | User[],
     method: RefreshMethod
-): RefreshLoadedUsers => {
+): RefreshLoadedUsersAction => {
     return {
         type: UserActionType.RefreshLoadedUsers,
         payload: {
@@ -129,8 +161,18 @@ const refreshLoadedUsers = (
     };
 };
 
+const updateScroll = (scrollPosition: number): UpdateScrollAction => {
+    return {
+        type: UserActionType.UpdateScroll,
+        payload: {
+            scrollPosition,
+        },
+    };
+};
+
 export {
     loadUsers,
+    fetchNextPage,
     loadNextPage,
     setCurrentPage,
     setTotalUsersCount,
@@ -141,4 +183,5 @@ export {
     saveUser,
     deleteUser,
     refreshLoadedUsers,
+    updateScroll,
 };

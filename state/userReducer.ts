@@ -9,8 +9,10 @@ import {
 
 const initialState: UserState = {
     loadedUsers: [],
+    nextUsers: [],
     totalUsersCount: 0,
     currentPage: 1,
+    currentScroll: 0,
     toggleModal: false,
     clickCoords: {
         x: null,
@@ -35,8 +37,20 @@ const userReducer = (state: UserState = initialState, action: UserAction) => {
                 ...state,
                 totalUsersCount: action.payload.count,
             };
+        case UserActionType.FetchNextPage:
+            let isNextPage = state.totalUsersCount / 9 > state.currentPage;
+
+            return {
+                ...state,
+                currentPage: isNextPage
+                    ? state.currentPage + 1
+                    : state.currentPage,
+            };
         case UserActionType.LoadNextPage:
-            return state;
+            return {
+                ...state,
+                loadedUsers: action.payload.nextUsers,
+            };
         case UserActionType.FilterUsers:
             return state;
         case UserActionType.StartUserEdit:
@@ -70,6 +84,12 @@ const userReducer = (state: UserState = initialState, action: UserAction) => {
             switch (method) {
                 case RefreshMethod.AddUser:
                     updatedUsers = [...state.loadedUsers, userData];
+                    // Display newly added users first
+                    updatedUsers.sort(
+                        (a: User, b: User) =>
+                            new Date(b.updatedAt).getTime() -
+                            new Date(a.updatedAt).getTime()
+                    );
                     break;
                 case RefreshMethod.RemoveUser:
                     updatedUsers = state.loadedUsers.filter(
@@ -80,16 +100,14 @@ const userReducer = (state: UserState = initialState, action: UserAction) => {
                     updatedUsers = userData;
             }
 
-            // Display newly added users first
-            let sortedUsers = updatedUsers.sort(
-                (a: User, b: User) =>
-                    new Date(b.updatedAt).getTime() -
-                    new Date(a.updatedAt).getTime()
-            );
-
             return {
                 ...state,
-                loadedUsers: sortedUsers,
+                loadedUsers: updatedUsers,
+            };
+        case UserActionType.UpdateScroll:
+            return {
+                ...state,
+                currentScroll: action.payload.scrollPosition,
             };
         default:
             return state;

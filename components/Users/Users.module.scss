@@ -31,3 +31,14 @@
 .footer {
     justify-content: center;
 }
+
+.pageBreak {
+    display: block;
+    width: 100%;
+    text-align: center;
+    // background-color: rgba(red, 0.1);
+
+    .number {
+        color: darken($grayMedium, 30);
+    }
+}

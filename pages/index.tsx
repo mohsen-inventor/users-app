@@ -4,6 +4,9 @@ import { Fragment } from 'react'
 import { User } from '../types/User';
 import Users from '../components/Users/Users';
 import axios from 'axios';
+// Router
+import { useRouter } from 'next/router'
+import Page from './../components/_layout/Page/Page';
 interface Props {
   page: number,
   totalCount: number,
@@ -25,9 +28,18 @@ const Home: NextPage<Props> = ({ usersData, page, totalCount }: Props) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: any) {
 
-  const usersResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER}/api/users`);
+  const stringifiedPage = Array.isArray(context.query.page)
+    ? context.query.page.join('')
+    : context.query.page;
+  // const stringifiedToPage = Array.isArray(query.to)
+  //   ? query.to.join('')
+  //   : query.to;
+  const pageNum = Number(stringifiedPage ?? 1);
+  // const toPage = Number(stringifiedToPage ?? 1);
+
+  const usersResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER}/api/users?page=${pageNum}`);
   const { page, count, results } = await usersResponse.data;
 
   return {
