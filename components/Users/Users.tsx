@@ -7,8 +7,7 @@ import css from './Users.module.scss';
 import { useRouter } from 'next/router';
 // Gsap (Animation)
 import { gsap } from 'gsap';
-// import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin.js';
+import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 
 // Types
 import { User } from '../../types/User';
@@ -20,7 +19,9 @@ import { loadUsers, setCurrentPage, setTotalUsersCount, filterUsers, fetchNextPa
 import useScrollPosition from './../../hooks/useScrollPosition';
 
 // Gsap register plugins
-gsap.registerPlugin(ScrollToPlugin);
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollToPlugin);
+}
 
 interface Props {
     page: number,

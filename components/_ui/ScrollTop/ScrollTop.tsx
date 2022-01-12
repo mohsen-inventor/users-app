@@ -1,16 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 // Gsap
 import { gsap, Power4 } from 'gsap';
-// import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin.js';
-
-gsap.registerPlugin(ScrollToPlugin);
-
+import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 // current page scroll hook
 import useScrollPosition from './../../../hooks/useScrollPosition';
 
 // Gsap register plugins
-gsap.registerPlugin(ScrollToPlugin);
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollToPlugin);
+}
 
 const ScrollTop = () => {
     // Current page scroll position
